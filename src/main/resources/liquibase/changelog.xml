@@ -10,13 +10,15 @@
         http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
     <changeSet id="1" author="ivanGavlik">
-        <createTable tableName="creditCard">
-            <column name="id" type="int">
+        <createTable tableName="credit_card">
+            <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="firstName" type="varchar"/>
-            <column name="lastName" type="varchar"/>
-            <column name="oib" type="varchar"/>
+            <column name="first_name" type="varchar"/>
+            <column name="last_name" type="varchar"/>
+            <column name="oib" type="varchar">
+                <constraints unique="true" ></constraints>
+            </column>
             <column name="status" type="varchar"/>
         </createTable>
     </changeSet>
