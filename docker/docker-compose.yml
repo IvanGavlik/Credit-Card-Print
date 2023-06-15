@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  dev_db:
+    container_name: creditCardIssuingDB
+    image: postgres:15
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: V7WoEiCia0rsv4dnxrk6
+      POSTGRES_USER: admin
+      POSTGRES_DB: creditCardIssuing
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata: {}

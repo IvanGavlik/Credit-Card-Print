@@ -26,6 +26,15 @@ For more info on architecture and technology look into
 
 ## Start app
 
+## Start app in development mode
+
+* start infrastructure container: in terminal navigate to /docker folder then run docker compose up -d dev_db
+* to run the application activate spring profile dev 
+
+## Stop app in development mode
+
+* after stoping application do not forget to shout down infrastructure container
+
 ## Start test
 
 ## Author 
