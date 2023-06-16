@@ -1,9 +1,10 @@
 package hr.rba.creditcardissuing.issuing;
 
 import hr.rba.creditcardissuing.data.CreditCard;
+import hr.rba.creditcardissuing.openapi.model.IssuingDto;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper()
 public interface CreditCardIssuingDtoMapper {
     /**
      * Map entity to dto object.

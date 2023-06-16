@@ -1,0 +1,31 @@
+openapi: "3.0.0"
+info:
+  title: Api for credit card issuing
+  description: Api can be used to crete request, issues and search for credit card
+  version: 1.0.0
+paths:
+  /credit-card:
+    get:
+      summary: Create credit card
+      operationId: issueCreditCard
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/IssuingDto'
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+components:
+  schemas:
+    IssuingDto:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string

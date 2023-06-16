@@ -42,6 +42,16 @@
             <version>1.5.3.Final</version>
         </dependency>
         <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -59,6 +69,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>hr.rba.creditcardissuing.CreditCardIssuingApplication</mainClass>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -97,6 +110,54 @@
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                 <version>6.6.0</version>
+                 <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openApi/api.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <apiPackage>hr.rba.creditcardissuing.openapi.api</apiPackage>
+                            <modelPackage>hr.rba.creditcardissuing.openapi.model</modelPackage>
+                            <generateSupportingFiles>true</generateSupportingFiles>
+                            <enablePostProcessFile>true</enablePostProcessFile>
+                            <generateApiTests>false</generateApiTests>
+                            <configOptions>
+                                <delegatePattern>true</delegatePattern>
+                                 <library>spring-boot</library>
+                                 <useSpringBoot3>true</useSpringBoot3>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- remove the unwanted generated testcases by the spring generator of openapi
+                                https://stackoverflow.com/questions/73461247/spring-boot-openapi-generator-plugin-creates-unwanted-test-file
+                                -->
+                                <delete dir="${project.build.directory}/generated-sources/openapi/src/test" />
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>

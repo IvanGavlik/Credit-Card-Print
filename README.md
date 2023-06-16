@@ -29,6 +29,7 @@ For more info on architecture and technology look into
 ## Start app in development mode
 
 * start infrastructure container: in terminal navigate to /docker folder then run docker compose up -d dev_db
+* run maven mvn clean package 
 * to run the application activate spring profile dev 
 
 ## Stop app in development mode

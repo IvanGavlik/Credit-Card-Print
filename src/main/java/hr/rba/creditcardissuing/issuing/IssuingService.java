@@ -1,5 +1,7 @@
 package hr.rba.creditcardissuing.issuing;
 
+import hr.rba.creditcardissuing.openapi.model.IssuingDto;
+
 public interface IssuingService {
 
     /**

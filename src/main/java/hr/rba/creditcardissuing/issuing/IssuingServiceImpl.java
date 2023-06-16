@@ -1,6 +1,7 @@
 package hr.rba.creditcardissuing.issuing;
 
 import hr.rba.creditcardissuing.data.CreditCardRepository;
+import hr.rba.creditcardissuing.openapi.model.IssuingDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
