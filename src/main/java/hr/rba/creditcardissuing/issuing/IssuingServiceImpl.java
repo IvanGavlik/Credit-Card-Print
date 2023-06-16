@@ -5,20 +5,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class IssuingServiceImpl implements IssuingService {
+public final class IssuingServiceImpl implements IssuingService {
 
-    private CreditCardRepository creditCardRepository;
+    private final CreditCardRepository creditCardRepo;
 
-    private CreditCardIssuingDtoMapper mapper;
+    private final CreditCardIssuingDtoMapper mapper;
+
+    /**
+     * IssuingServiceImpl constructor.
+     *
+     * @param creditCardRepository
+     * @param mapperIssuing
+     */
     @Autowired
-    public IssuingServiceImpl(CreditCardRepository creditCardRepository, CreditCardIssuingDtoMapper mapper) {
-        this.creditCardRepository = creditCardRepository;
-        this.mapper = mapper;
+    public IssuingServiceImpl(final CreditCardRepository creditCardRepository,
+                              final CreditCardIssuingDtoMapper mapperIssuing) {
+        this.creditCardRepo = creditCardRepository;
+        this.mapper = mapperIssuing;
     }
 
     @Override
     public IssuingDto issueCard() {
-        creditCardRepository.findAll().forEach(el -> System.out.println(this.mapper.creditCardToIssuingDto(el)));
+        creditCardRepo.findAll().forEach(
+                el -> System.out.println(this.mapper.creditCardToIssuingDto(el))
+        );
         return null;
     }
 }

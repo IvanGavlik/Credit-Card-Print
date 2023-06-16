@@ -6,4 +6,10 @@
               files="CreditCardIssuingApplication.java"/>
     <suppress checks="HideUtilityClassConstructor"
               files="CreditCardIssuingApplication.java" />
+
+    <!-- no need for doc on variables-->
+    <suppress files="[a-zA-Z0-9]*" checks="JavadocVariable" />
+    <suppress files="data" checks="DesignForExtension" />
+    <suppress files="data" checks="MissingJavadocMethod" />
+    <suppress files="data" checks="OperatorWrap" />
 </suppressions>
