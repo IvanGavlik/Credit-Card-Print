@@ -38,6 +38,9 @@ For more info on architecture and technology look into
 
 ## Start test
 
+## Api doc 
+* after the application is started go to http://localhost:8080/swagger-ui/index.html
+
 ## Author 
 Ivan Gavlik
 ivangavlik963@gmail.com
