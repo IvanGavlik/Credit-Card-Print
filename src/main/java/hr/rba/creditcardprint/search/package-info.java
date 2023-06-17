@@ -4,4 +4,4 @@
  * @since 1.0
  * @author Ivan Gavlik
  */
-package hr.rba.creditcardissuing.search;
+package hr.rba.creditcardprint.search;

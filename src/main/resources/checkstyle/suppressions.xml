@@ -3,13 +3,18 @@
 
 <suppressions>
     <suppress checks="FinalClass"
-              files="CreditCardIssuingApplication.java"/>
+              files="CreditCardPrintApplication.java"/>
     <suppress checks="HideUtilityClassConstructor"
-              files="CreditCardIssuingApplication.java" />
+              files="CreditCardPrintApplication.java" />
 
     <!-- no need for doc on variables-->
     <suppress files="[a-zA-Z0-9]*" checks="JavadocVariable" />
+
     <suppress files="data" checks="DesignForExtension" />
     <suppress files="data" checks="MissingJavadocMethod" />
     <suppress files="data" checks="OperatorWrap" />
+
+    <!-- no need for check style on generated code -->
+    <suppress files="openapi" checks="." />
+    <suppress files="^((?!d/\w+MapperImpl\.java).)*$" checks="." />
 </suppressions>

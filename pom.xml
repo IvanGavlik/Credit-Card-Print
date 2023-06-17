@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>hr.rba</groupId>
-    <artifactId>creditCardIssuing</artifactId>
+    <artifactId>creditCardPrint</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>creditCardIssuing</name>
-    <description>creditCardIssuing</description>
+    <name>creditCardPrint</name>
+    <description>creditCardPrint</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -70,7 +70,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>hr.rba.creditcardissuing.CreditCardIssuingApplication</mainClass>
+                    <mainClass>hr.rba.creditcardprint.CreditCardPrintApplication</mainClass>
                 </configuration>
             </plugin>
 
@@ -124,8 +124,8 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/openApi/api.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <apiPackage>hr.rba.creditcardissuing.openapi.api</apiPackage>
-                            <modelPackage>hr.rba.creditcardissuing.openapi.model</modelPackage>
+                            <apiPackage>hr.rba.creditcardprint.openapi.api</apiPackage>
+                            <modelPackage>hr.rba.creditcardprint.openapi.model</modelPackage>
                             <generateSupportingFiles>true</generateSupportingFiles>
                             <enablePostProcessFile>true</enablePostProcessFile>
                             <generateApiTests>false</generateApiTests>

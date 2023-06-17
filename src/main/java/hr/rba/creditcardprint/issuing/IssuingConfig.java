@@ -1,4 +1,4 @@
-package hr.rba.creditcardissuing.issuing;
+package hr.rba.creditcardprint.issuing;
 
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;

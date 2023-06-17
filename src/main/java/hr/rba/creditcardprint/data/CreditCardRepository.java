@@ -1,4 +1,4 @@
-package hr.rba.creditcardissuing.data;
+package hr.rba.creditcardprint.data;
 
 import org.springframework.data.repository.CrudRepository;
 

@@ -1,7 +1,7 @@
-package hr.rba.creditcardissuing.issuing;
+package hr.rba.creditcardprint.issuing;
 
-import hr.rba.creditcardissuing.data.CreditCard;
-import hr.rba.creditcardissuing.openapi.model.IssuingDto;
+import hr.rba.creditcardprint.data.CreditCard;
+import hr.rba.creditcardprint.openapi.model.IssuingDto;
 import org.mapstruct.Mapper;
 
 @Mapper()

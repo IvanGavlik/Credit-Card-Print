@@ -1,6 +1,7 @@
-package hr.rba.creditcardissuing.issuing;
+package hr.rba.creditcardprint.issuing;
 
-import hr.rba.creditcardissuing.openapi.model.IssuingDto;
+
+import hr.rba.creditcardprint.openapi.model.IssuingDto;
 
 public interface IssuingService {
 
