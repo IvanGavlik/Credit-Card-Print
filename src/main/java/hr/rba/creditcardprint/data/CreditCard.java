@@ -19,7 +19,7 @@ public class CreditCard  {
     private String firstName;
     private String lastName;
     private String oib;
-    private String status;
+    private Status status;
 
     /**
      * Credit card constructor.
@@ -58,11 +58,11 @@ public class CreditCard  {
         this.oib = identification;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(final String creditCardStatus) {
+    public void setStatus(final Status creditCardStatus) {
         this.status = creditCardStatus;
     }
 

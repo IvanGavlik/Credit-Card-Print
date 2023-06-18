@@ -1,16 +1,14 @@
 package hr.rba.creditcardprint.issuing;
 
 
-import hr.rba.creditcardprint.openapi.model.IssuingDto;
 
 public interface IssuingService {
 
     /**
-     * Issue credit card.
-     * Create files for issuing credit card.
+     * Print credit card.
+     * Create files for printing credit card.
      *
-     * @return Issued card or throws exception
      */
-    IssuingDto issueCard();
+    void issueCard();
 
 }

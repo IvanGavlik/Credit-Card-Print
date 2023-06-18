@@ -1,7 +1,6 @@
 package hr.rba.creditcardprint.issuing;
 
 import hr.rba.creditcardprint.data.CreditCardRepository;
-import hr.rba.creditcardprint.openapi.model.IssuingDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,10 +25,9 @@ public final class IssuingServiceImpl implements IssuingService {
     }
 
     @Override
-    public IssuingDto issueCard() {
+    public void issueCard() {
         creditCardRepo.findAll().forEach(
-                el -> System.out.println(this.mapper.creditCardToIssuingDto(el))
+                el -> System.out.println(el)
         );
-        return null;
     }
 }
