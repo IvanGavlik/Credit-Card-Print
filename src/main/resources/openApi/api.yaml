@@ -74,6 +74,13 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/ValidationErrorResponse'
+        '5XX':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
     put:
       summary: For found individual by oib generate a text file a start process of credit card printing.
       description: |
@@ -144,6 +151,13 @@ components:
       type: object
       properties:
         fieldName:
+          type: string
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
           type: string
         message:
           type: string

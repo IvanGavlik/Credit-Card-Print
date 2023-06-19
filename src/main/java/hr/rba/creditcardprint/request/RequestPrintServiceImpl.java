@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
+
+import java.util.Optional;
+
 @Service
 @Validated
 public class RequestPrintServiceImpl implements RequestPrintService {
@@ -32,6 +35,12 @@ public class RequestPrintServiceImpl implements RequestPrintService {
 
     @Override
     public CreditCardPrintDetailsDto requestForPrint(@Valid final CreditCardPrintInsertDto insertDto) {
+        final Optional<CreditCard> current = this.repository.findCreditCardByOib(insertDto.getOib());
+        if (current.isPresent()) {
+            throw new CreditCardPrintAlreadyExistException(
+                    current.get().getOib(),
+                    current.get().getStatus().name());
+        }
         CreditCard creditCard = this.mapper.dtoToEntity(insertDto);
         creditCard.setStatus(Status.NO_ACTIVE);
         return this.mapper.entityToDetailsDto(repository.save(creditCard));

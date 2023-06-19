@@ -1,9 +1,11 @@
 package hr.rba.creditcardissuing.request;
 
+import hr.rba.creditcardprint.data.CreditCard;
 import hr.rba.creditcardprint.data.CreditCardRepository;
 import hr.rba.creditcardprint.data.Status;
 import hr.rba.creditcardprint.openapi.model.CreditCardPrintDetailsDto;
 import hr.rba.creditcardprint.openapi.model.CreditCardPrintInsertDto;
+import hr.rba.creditcardprint.request.CreditCardPrintAlreadyExistException;
 import hr.rba.creditcardprint.request.RequestPrintMapper;
 import hr.rba.creditcardprint.request.RequestPrintService;
 import hr.rba.creditcardprint.request.RequestPrintServiceImpl;
@@ -11,6 +13,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
+
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -47,5 +51,30 @@ public class RequestPrintServiceTest {
         Assertions.assertEquals(oib, detailsDto.getOib());
         Assertions.assertEquals(Status.NO_ACTIVE.name(), detailsDto.getStatus());
     }
+
+    @Test
+    public void alreadyExist() {
+        final String name = "Josipa";
+        final String lastName ="Jean-Philippe";
+        final String oib = "57191619656";
+
+        CreditCard entity = new CreditCard();
+        entity.setFirstName(name);
+        entity.setLastName(lastName);
+        entity.setOib(oib);
+        entity.setStatus(Status.NO_ACTIVE);
+
+        // already exist in DB
+        when(mockRepo.findCreditCardByOib(any())).thenAnswer(i -> Optional.of(entity));
+
+        final CreditCardPrintInsertDto insertDto = new CreditCardPrintInsertDto();
+        insertDto.setFirstName(name);
+        insertDto.setLastName(lastName);
+        insertDto.setOib(oib);
+
+        Assertions.assertThrows(CreditCardPrintAlreadyExistException.class,
+                () -> requestPrintService.requestForPrint(insertDto));
+    }
+
 
 }

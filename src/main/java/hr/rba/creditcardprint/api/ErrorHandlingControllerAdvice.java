@@ -1,7 +1,9 @@
 package hr.rba.creditcardprint.api;
 
+import hr.rba.creditcardprint.openapi.model.ErrorResponse;
 import hr.rba.creditcardprint.openapi.model.ValidationErrorResponse;
 import hr.rba.creditcardprint.openapi.model.Violation;
+import hr.rba.creditcardprint.request.CreditCardPrintAlreadyExistException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -49,6 +51,27 @@ public class ErrorHandlingControllerAdvice {
         }
         ValidationErrorResponse errorResponse = new ValidationErrorResponse();
         errorResponse.setViolations(errors);
+        return errorResponse;
+    }
+
+    @ExceptionHandler(CreditCardPrintAlreadyExistException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseBody
+    public ErrorResponse onCreditCardPrintAlreadyExistException(
+            CreditCardPrintAlreadyExistException e) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setStatus(HttpStatus.CONFLICT.name());
+        errorResponse.setMessage(e.getMessage());
+        return errorResponse;
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ErrorResponse onException(Exception e) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.name());
+        errorResponse.setMessage(e.getMessage());
         return errorResponse;
     }
 }
