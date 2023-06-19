@@ -1,5 +1,6 @@
 package hr.rba.creditcardprint.request;
 
+import hr.rba.creditcardprint.openapi.model.CreditCardPrintDetailsDto;
 import hr.rba.creditcardprint.openapi.model.CreditCardPrintInsertDto;
 
 public interface RequestPrintService {
@@ -7,6 +8,6 @@ public interface RequestPrintService {
      * Request
      * @param insertDto
      */
-    void requestForPrint(final CreditCardPrintInsertDto insertDto);
+    CreditCardPrintDetailsDto requestForPrint(final CreditCardPrintInsertDto insertDto);
 
 }

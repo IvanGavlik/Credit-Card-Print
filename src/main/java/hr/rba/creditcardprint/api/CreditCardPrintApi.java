@@ -31,9 +31,9 @@ public final class CreditCardPrintApi implements CreditCardPrintApiDelegate {
         this.requestPrint = requestPrintService;
     }
 
-    public ResponseEntity<Void> insertCreditCard(final CreditCardPrintInsertDto creditCardPrintInsertDto) {
-        this.requestPrint.requestForPrint(creditCardPrintInsertDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<CreditCardPrintDetailsDto> insertCreditCard(final CreditCardPrintInsertDto creditCardPrintInsertDto) {
+        CreditCardPrintDetailsDto dto = this.requestPrint.requestForPrint(creditCardPrintInsertDto);
+        return ResponseEntity.ok().body(dto);
     }
 
     public ResponseEntity<PrintCreditCard2XXResponse> printCreditCard(String oib) {

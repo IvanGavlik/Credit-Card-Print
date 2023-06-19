@@ -50,7 +50,8 @@ paths:
       summary: Add a new credit card for print
       description: |
         Inserting an individual person for credit card print with all relevant attributes (First Name, Last Name, OIB, Status).  
-        Default status (NO_ACTIVE) is set.
+        Default status (NO_ACTIVE) is set.  
+        Returns created entity.
       operationId: insertCreditCard
       requestBody:
         required: true
@@ -59,8 +60,13 @@ paths:
             schema:
               $ref: '#/components/schemas/CreditCardPrintInsertDto'
       responses:
-        '201':
-          description: Created
+        '2XX':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/CreditCardPrintDetailsDto'
     put:
       summary: For found individual by oib generate a text file a start process of credit card printing.
       description: |

@@ -1,6 +1,7 @@
 package hr.rba.creditcardprint.request;
 
 import hr.rba.creditcardprint.data.CreditCard;
+import hr.rba.creditcardprint.openapi.model.CreditCardPrintDetailsDto;
 import hr.rba.creditcardprint.openapi.model.CreditCardPrintInsertDto;
 import org.mapstruct.Mapper;
 
@@ -13,4 +14,6 @@ public interface RequestPrintMapper {
      * @return CreditCard instance
      */
     CreditCard dtoToEntity(CreditCardPrintInsertDto insertDto);
+
+    CreditCardPrintDetailsDto entityToDetailsDto(CreditCard creditCard);
  }

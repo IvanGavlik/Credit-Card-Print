@@ -41,6 +41,11 @@ For more info on architecture and technology look into
 ## Api doc 
 * after the application is started go to http://localhost:8080/swagger-ui/index.html
 
+## Postman 
+* tutorial https://blog.postman.com/postman-now-supports-openapi-3-1/
+* open api file is here src/main/resources/openApi/api.yaml
+* do not forget to set baseUrl to http://localhost:8080/ (for dev env)
+
 ## Author 
 Ivan Gavlik
 ivangavlik963@gmail.com
