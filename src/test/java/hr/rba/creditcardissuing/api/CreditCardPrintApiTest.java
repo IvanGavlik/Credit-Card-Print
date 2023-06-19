@@ -15,7 +15,7 @@ public class CreditCardPrintApiTest extends BaseIntegrationTest {
     public void testInsertCreditCard() {
         final String firstName = "Marko";
         final String lastName = "Polo";
-        final String oib = "1234";
+        final String oib = "57191619656";
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("firstName", firstName);
         jsonObject.put("lastName", lastName);

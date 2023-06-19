@@ -33,7 +33,7 @@ public class RequestPrintServiceTest {
 
         final String name = "Josipa";
         final String lastName ="Jean-Philippe";
-        final String oib = "40253916515";
+        final String oib = "57191619656";
 
         final CreditCardPrintInsertDto insertDto = new CreditCardPrintInsertDto();
         insertDto.setFirstName(name);

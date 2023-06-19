@@ -124,3 +124,4 @@ components:
           type: string
         oib:
           type: string
+          x-validations-oib: true

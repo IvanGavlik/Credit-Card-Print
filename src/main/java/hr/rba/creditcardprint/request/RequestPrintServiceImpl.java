@@ -8,8 +8,10 @@ import hr.rba.creditcardprint.openapi.model.CreditCardPrintDetailsDto;
 import hr.rba.creditcardprint.openapi.model.CreditCardPrintInsertDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.validation.annotation.Validated;
+import jakarta.validation.Valid;
 @Service
+@Validated
 public class RequestPrintServiceImpl implements RequestPrintService {
 
     private CreditCardRepository repository;
@@ -29,7 +31,7 @@ public class RequestPrintServiceImpl implements RequestPrintService {
     }
 
     @Override
-    public CreditCardPrintDetailsDto requestForPrint(final CreditCardPrintInsertDto insertDto) {
+    public CreditCardPrintDetailsDto requestForPrint(@Valid final CreditCardPrintInsertDto insertDto) {
         CreditCard creditCard = this.mapper.dtoToEntity(insertDto);
         creditCard.setStatus(Status.NO_ACTIVE);
         return this.mapper.entityToDetailsDto(repository.save(creditCard));
