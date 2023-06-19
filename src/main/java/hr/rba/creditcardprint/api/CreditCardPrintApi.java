@@ -6,12 +6,9 @@ import hr.rba.creditcardprint.openapi.model.CreditCardPrintDetailsDto;
 import hr.rba.creditcardprint.openapi.model.CreditCardPrintInsertDto;
 import hr.rba.creditcardprint.openapi.model.PrintCreditCard2XXResponse;
 import hr.rba.creditcardprint.request.RequestPrintService;
-import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 

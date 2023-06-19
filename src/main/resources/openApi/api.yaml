@@ -49,7 +49,7 @@ paths:
     post:
       summary: Add a new credit card for print
       description: |
-        Inserting an individual person for credit card print with all relevant attributes (First Name, Last Name, OIB, Status).  
+        Inserting an individual person for credit card print with all relevant attributes (First Name, Last Name, OIB).  
         Default status (NO_ACTIVE) is set.  
         Returns created entity.
       operationId: insertCreditCard
@@ -67,6 +67,13 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/CreditCardPrintDetailsDto'
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ValidationErrorResponse'
     put:
       summary: For found individual by oib generate a text file a start process of credit card printing.
       description: |
@@ -125,3 +132,18 @@ components:
         oib:
           type: string
           x-validations-oib: true
+    ValidationErrorResponse:
+      type: object
+      properties:
+        violations:
+          type: array
+          items:
+           $ref: '#/components/schemas/Violation'
+          description: List of the violations
+    Violation:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        message:
+          type: string
