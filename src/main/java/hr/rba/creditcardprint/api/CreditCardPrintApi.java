@@ -1,5 +1,6 @@
 package hr.rba.creditcardprint.api;
 
+import hr.rba.creditcardprint.delete.DeleteCardCancelService;
 import hr.rba.creditcardprint.issuing.IssuingService;
 import hr.rba.creditcardprint.openapi.api.CreditCardPrintApiDelegate;
 import hr.rba.creditcardprint.openapi.model.CreditCardPrintDetailsDto;
@@ -21,6 +22,8 @@ public final class CreditCardPrintApi implements CreditCardPrintApiDelegate {
     private RequestPrintService requestPrint;
 
     private SearchPrintService search;
+
+    private DeleteCardCancelService deleteService;
     /**
      * Constructor.
      *
@@ -30,10 +33,12 @@ public final class CreditCardPrintApi implements CreditCardPrintApiDelegate {
     @Autowired
     public CreditCardPrintApi(final IssuingService issuingService,
                               final RequestPrintService requestPrintService,
-                              final SearchPrintService searchPrintService) {
+                              final SearchPrintService searchPrintService,
+                              final DeleteCardCancelService deleteCardCancelService) {
         this.issuing = issuingService;
         this.requestPrint = requestPrintService;
         this.search = searchPrintService;
+        this.deleteService = deleteCardCancelService;
     }
 
     public ResponseEntity<CreditCardPrintDetailsDto> insertCreditCard(final CreditCardPrintInsertDto creditCardPrintInsertDto) {
@@ -53,8 +58,9 @@ public final class CreditCardPrintApi implements CreditCardPrintApiDelegate {
         List<CreditCardPrintDetailsDto> list = search.search(firstName, lastName, oib, status);
         return ResponseEntity.ok().body(list);
     }
-
-    // https://dzone.com/articles/best-practice-for-exception-handling-in-spring-boo
-    // https://stackabuse.com/exception-handling-in-spring/
+    public ResponseEntity<Void> deleteCreditCard(final String oib) {
+        this.deleteService.delete(oib);
+        return ResponseEntity.ok().build();
+    }
 }
 

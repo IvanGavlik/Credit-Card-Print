@@ -38,6 +38,8 @@ public class PrintJobCheckerTest {
      *
      * Files: 12179050887.csv, 18561704886.csv, 69546524558.csv, 77570421961.csv, 91070672093.csv
      * Each file has one status
+     *
+     * Note: although integration test is recommended, Decided for unit test because this is run by scheduler.
      */
     @Test
     public void checkPrintJob() {
@@ -48,10 +50,9 @@ public class PrintJobCheckerTest {
                 .collect(Collectors.toList()));
 
         List<CreditCardCsvEntity> creditCardList = this.printJobChecker.checkPrintJob();
-        Assertions.assertEquals(4, creditCardList.size()); // NO_ACTIVE is not updated
+        Assertions.assertEquals(3, creditCardList.size()); // NO_ACTIVE is not updated
         Assertions.assertEquals(1, creditCardList.stream().filter(el -> el.getStatus() == Status.ACTIVE).count());
         Assertions.assertEquals(1, creditCardList.stream().filter(el -> el.getStatus() == Status.IN_PROCESS).count());
-        Assertions.assertEquals(1, creditCardList.stream().filter(el -> el.getStatus() == Status.DELETED).count());
         Assertions.assertEquals(1, creditCardList.stream().filter(el -> el.getStatus() == Status.BLOCKED).count());
         Assertions.assertEquals(0, creditCardList.stream().filter(el -> el.getStatus() == Status.NO_ACTIVE).count());
     }
@@ -85,13 +86,6 @@ public class PrintJobCheckerTest {
         creditCard.setLastName("Golub");
         creditCard.setOib("77570421961");
         creditCard.setStatus(Status.BLOCKED);
-        creditCardList.add(creditCard);
-
-        creditCard = new CreditCard();
-        creditCard.setFirstName("Veljko");
-        creditCard.setLastName("Pavić");
-        creditCard.setOib("91070672093");
-        creditCard.setStatus(Status.DELETED);
         creditCardList.add(creditCard);
 
         return creditCardList;

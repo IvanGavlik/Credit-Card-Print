@@ -5,17 +5,9 @@ import hr.rba.creditcardprint.data.CreditCard;
 import hr.rba.creditcardprint.data.CreditCardRepository;
 import hr.rba.creditcardprint.data.Status;
 import hr.rba.creditcardprint.openapi.model.CreditCardPrintStatusDto;
-import hr.rba.creditcardprint.validation.OibValidator;
 import jakarta.transaction.Transactional;
-import jakarta.validation.*;
-import jakarta.validation.executable.ExecutableValidator;
-import jakarta.validation.metadata.ConstraintDescriptor;
-import javassist.NotFoundException;
-import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -105,8 +97,8 @@ public class IssuingServiceImpl implements IssuingService {
         return statusDto;
     }
     private File generateFile(CreditCard creditCard) throws Exception {
-        final String fileName = String.format("/%s.csv", creditCard.getOib());
-        Optional<File> file = FileStorageService.createFile(config.getFileDire() +  fileName);
+        final String fileName = IssuingService.nameCreditCardFile(creditCard);
+        Optional<File> file = FileStorageService.createFile(config.getFileDire() + fileName);
         if (!file.isPresent()) {
             return null;
         }
@@ -122,5 +114,4 @@ public class IssuingServiceImpl implements IssuingService {
             return file.get();
         }
     }
-
 }

@@ -14,4 +14,11 @@ public class FileStorageService {
             return Optional.empty();
         }
     }
+
+    public static void renameFile(String existing, String newName) {
+        File oldfile = new File(existing);
+        File newfile = new File(newName);
+
+        oldfile.renameTo(newfile);
+    }
 }

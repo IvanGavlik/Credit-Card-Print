@@ -1,5 +1,6 @@
 package hr.rba.creditcardprint.issuing;
 
+import hr.rba.creditcardprint.delete.DeleteCardCancelService;
 import hr.rba.creditcardprint.config.ApplicationConfig;
 import hr.rba.creditcardprint.data.CreditCard;
 import hr.rba.creditcardprint.data.CreditCardRepository;
@@ -35,7 +36,7 @@ public class PrintJobCheckerImpl implements PrintJobChecker {
 
     public List<CreditCardCsvEntity> checkPrintJob() {
         List<CreditCard> csvEntityList = Stream.of(new File(this.config.getFileDire()).listFiles())
-                .filter(file -> !file.isDirectory())
+                .filter(file -> !file.isDirectory() && !file.getName().contains(DeleteCardCancelService.FILE_DELETED_MARKER))
                 .flatMap(file -> {
                     try {
                         return Files.lines(file.toPath());

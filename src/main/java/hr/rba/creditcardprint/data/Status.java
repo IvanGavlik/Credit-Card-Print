@@ -5,6 +5,5 @@ public enum Status {
     ACTIVE,
     BLOCKED,
     IN_PROCESS,
-    DELETED;
 
 }
