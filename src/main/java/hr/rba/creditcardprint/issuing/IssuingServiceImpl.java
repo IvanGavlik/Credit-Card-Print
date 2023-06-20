@@ -18,14 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.util.HashSet;
+
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class IssuingServiceImpl implements IssuingService {
@@ -60,7 +55,7 @@ public class IssuingServiceImpl implements IssuingService {
             return createStatus(oib,
                     CreditCardPrintStatusDto.ProcessStatusEnum.FAILURE,
                     Optional.of(String.format("For {oib: %s} Credit Card Print does not exist", oib))
-                    );
+            );
         }
 
         final CreditCard creditCard = current.get();
