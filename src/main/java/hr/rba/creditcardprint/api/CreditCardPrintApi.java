@@ -4,7 +4,7 @@ import hr.rba.creditcardprint.issuing.IssuingService;
 import hr.rba.creditcardprint.openapi.api.CreditCardPrintApiDelegate;
 import hr.rba.creditcardprint.openapi.model.CreditCardPrintDetailsDto;
 import hr.rba.creditcardprint.openapi.model.CreditCardPrintInsertDto;
-import hr.rba.creditcardprint.openapi.model.PrintCreditCard2XXResponse;
+import hr.rba.creditcardprint.openapi.model.CreditCardPrintStatusDto;
 import hr.rba.creditcardprint.request.RequestPrintService;
 import hr.rba.creditcardprint.search.SearchPrintService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +41,9 @@ public final class CreditCardPrintApi implements CreditCardPrintApiDelegate {
         return ResponseEntity.ok().body(dto);
     }
 
-    public ResponseEntity<PrintCreditCard2XXResponse> printCreditCard(String oib) {
-        return null;
+    public ResponseEntity<CreditCardPrintStatusDto> printCreditCard(String oib) {
+        CreditCardPrintStatusDto statusDto = issuing.issueCard(oib);
+        return ResponseEntity.ok().body(statusDto);
     }
 
     public ResponseEntity<List<CreditCardPrintDetailsDto>> searchCreditCard(String firstName,

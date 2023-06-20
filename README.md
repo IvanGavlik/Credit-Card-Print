@@ -30,7 +30,9 @@ For more info on architecture and technology look into
 
 * start infrastructure container: in terminal navigate to /docker folder then run docker compose up -d dev_db
 * run maven mvn clean package 
-* to run the application activate spring profile dev 
+* Optional set location where files should be created use env variable hr.rba.credicardprint.csvfile.dir. Default location is print/files
+* Optional set csv file delimiter use env env variable hr.rba.credicardprint.csvfile.del. Default is ,
+* before running application activate spring profile dev 
 
 ## Stop app in development mode
 

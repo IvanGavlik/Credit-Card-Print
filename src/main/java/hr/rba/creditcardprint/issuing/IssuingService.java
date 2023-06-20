@@ -1,6 +1,7 @@
 package hr.rba.creditcardprint.issuing;
 
 
+import hr.rba.creditcardprint.openapi.model.CreditCardPrintStatusDto;
 
 public interface IssuingService {
 
@@ -9,6 +10,6 @@ public interface IssuingService {
      * Create files for printing credit card.
      *
      */
-    void issueCard();
+    CreditCardPrintStatusDto issueCard(String oib);
 
 }

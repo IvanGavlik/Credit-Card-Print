@@ -1,4 +1,4 @@
-package hr.rba.creditcardissuing.integration;
+package hr.rba.creditcardprint.integration;
 
 import hr.rba.creditcardprint.CreditCardPrintApplication;
 import io.restassured.RestAssured;

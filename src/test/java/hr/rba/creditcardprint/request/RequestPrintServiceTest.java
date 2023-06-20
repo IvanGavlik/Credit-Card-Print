@@ -1,14 +1,10 @@
-package hr.rba.creditcardissuing.request;
+package hr.rba.creditcardprint.request;
 
 import hr.rba.creditcardprint.data.CreditCard;
 import hr.rba.creditcardprint.data.CreditCardRepository;
 import hr.rba.creditcardprint.data.Status;
 import hr.rba.creditcardprint.openapi.model.CreditCardPrintDetailsDto;
 import hr.rba.creditcardprint.openapi.model.CreditCardPrintInsertDto;
-import hr.rba.creditcardprint.request.CreditCardPrintAlreadyExistException;
-import hr.rba.creditcardprint.request.RequestPrintMapper;
-import hr.rba.creditcardprint.request.RequestPrintService;
-import hr.rba.creditcardprint.request.RequestPrintServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

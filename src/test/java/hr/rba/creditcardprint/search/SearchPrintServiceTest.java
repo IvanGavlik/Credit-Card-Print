@@ -1,7 +1,7 @@
-package hr.rba.creditcardissuing.search;
+package hr.rba.creditcardprint.search;
 
 
-import hr.rba.creditcardissuing.api.CreditCardPrintApiTest;
+import hr.rba.creditcardprint.api.CreditCardPrintApiTest;
 
 /**
  Junit tests for search are not good idea.

@@ -88,7 +88,7 @@ paths:
                 type: object
                 $ref: '#/components/schemas/ErrorResponse'
     put:
-      summary: For found individual by oib generate a text file a start process of credit card printing.
+      summary: For individual found by oib generate a text file a start process of credit card printing.
       description: |
         Process of credit card printing can be started only for individual person credit card print request in status NO_ACTIVE.  
         Returns the status indicating success of process.  
@@ -97,7 +97,7 @@ paths:
         Returns BLOCKED if credit card is not printed. Process of printing failed.
       operationId: printCreditCard
       parameters:
-        - in: path
+        - in: query
           name: oib
           required: true
           schema:
@@ -109,10 +109,21 @@ paths:
             application/json:
               schema:
                 type: object
-                properties:
-                  status:
-                    type: string
-                    description: Status of the print
+                $ref: '#/components/schemas/CreditCardPrintStatusDto'
+        '4XX':
+          description: Client error
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '5XX':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
     CreditCardPrintDetailsDto:
@@ -145,6 +156,19 @@ components:
         oib:
           type: string
           x-validations-oib: true
+    CreditCardPrintStatusDto:
+      type: object
+      required:
+        - oib
+        - processStatus
+      properties:
+        oib:
+          type: string
+        processStatus:
+          type: string
+          enum: [REQUEST_SUCCESSFULLY_WAITING_PRINTER, FAILURE]
+        msg:
+          type: string
     ValidationErrorResponse:
       type: object
       properties:
