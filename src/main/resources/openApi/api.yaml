@@ -8,7 +8,7 @@ paths:
     get:
       summary: 'Search for credit card'
       description: |
-        Can search using one of the optional params first name, last name or personal identification Number (OIB).    
+        Can search using one of the optional params first name, last name, personal identification Number (OIB) or status   
         If param is not specified return all.  
         If nothing is found returns empty list.
       operationId: searchCreditCard
@@ -31,6 +31,12 @@ paths:
              type: string
             required: false
             description: Search by user personal identification number (OIB)
+          - in: query
+            name: status
+            schema:
+              type: string
+            required: false
+            description: Search by status
       responses:
         '2XX':
           description: OK

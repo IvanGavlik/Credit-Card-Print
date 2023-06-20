@@ -6,6 +6,7 @@ import hr.rba.creditcardprint.openapi.model.CreditCardPrintDetailsDto;
 import hr.rba.creditcardprint.openapi.model.CreditCardPrintInsertDto;
 import hr.rba.creditcardprint.openapi.model.PrintCreditCard2XXResponse;
 import hr.rba.creditcardprint.request.RequestPrintService;
+import hr.rba.creditcardprint.search.SearchPrintService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public final class CreditCardPrintApi implements CreditCardPrintApiDelegate {
 
     private RequestPrintService requestPrint;
 
+    private SearchPrintService search;
     /**
      * Constructor.
      *
@@ -26,9 +28,12 @@ public final class CreditCardPrintApi implements CreditCardPrintApiDelegate {
      * @param requestPrintService
      */
     @Autowired
-    public CreditCardPrintApi(final IssuingService issuingService, final RequestPrintService requestPrintService) {
+    public CreditCardPrintApi(final IssuingService issuingService,
+                              final RequestPrintService requestPrintService,
+                              final SearchPrintService searchPrintService) {
         this.issuing = issuingService;
         this.requestPrint = requestPrintService;
+        this.search = searchPrintService;
     }
 
     public ResponseEntity<CreditCardPrintDetailsDto> insertCreditCard(final CreditCardPrintInsertDto creditCardPrintInsertDto) {
@@ -42,8 +47,10 @@ public final class CreditCardPrintApi implements CreditCardPrintApiDelegate {
 
     public ResponseEntity<List<CreditCardPrintDetailsDto>> searchCreditCard(String firstName,
                                                                             String lastName,
-                                                                            String oib) {
-        return null;
+                                                                            String oib,
+                                                                            String status) {
+        List<CreditCardPrintDetailsDto> list = search.search(firstName, lastName, oib, status);
+        return ResponseEntity.ok().body(list);
     }
 
     // https://dzone.com/articles/best-practice-for-exception-handling-in-spring-boo

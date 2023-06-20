@@ -1,10 +1,7 @@
 package hr.rba.creditcardprint.data;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -19,6 +16,7 @@ public class CreditCard  {
     private String firstName;
     private String lastName;
     private String oib;
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     /**
