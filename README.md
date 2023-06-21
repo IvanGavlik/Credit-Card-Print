@@ -1,4 +1,4 @@
-# Credit card issuing
+# Credit card print
 
 ## Problem description
 
