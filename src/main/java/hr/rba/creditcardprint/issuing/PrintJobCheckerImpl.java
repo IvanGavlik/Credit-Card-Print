@@ -18,6 +18,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+/**
+ * The PrintJobCheckerImpl class is responsible for checking and updating
+ * the status of credit card print jobs.
+ * It implements the PrintJobChecker interface.
+ */
 @Service
 public class PrintJobCheckerImpl implements PrintJobChecker {
 
@@ -25,18 +30,36 @@ public class PrintJobCheckerImpl implements PrintJobChecker {
     private final ApplicationConfig config;
 
     private final CreditCardIssuingDtoMapper mapper;
+
+    /**
+     * Constructor for creating a new PrintJobCheckerImpl instance.
+     *
+     * @param creditCardRepository     .
+     * @param applicationConfig
+     * @param creditCardIssuingDtoMapper
+     */
     @Autowired
     public PrintJobCheckerImpl(final CreditCardRepository creditCardRepository,
                                final ApplicationConfig applicationConfig,
-                               CreditCardIssuingDtoMapper creditCardIssuingDtoMapper) {
+                               final CreditCardIssuingDtoMapper creditCardIssuingDtoMapper) {
         this.repository = creditCardRepository;
         this.config = applicationConfig;
         this.mapper = creditCardIssuingDtoMapper;
     }
-
+    /**
+     * Checks the result of print job by looking at the statues in CSV files.
+     *
+     * Updated database accordingly and returns a list of credit card entities from CSV files.
+     * Files marked as deleted are skipped.
+     * Not checking request in status NO_ACTIVE because they are not picked by print job.
+     *
+     * @return The list of CreditCardCsvEntity representing the credit card entities from CSV files.
+     */
     public List<CreditCardCsvEntity> checkPrintJob() {
-        List<CreditCard> csvEntityList = Stream.of(new File(this.config.getFileDire()).listFiles())
-                .filter(file -> !file.isDirectory() && !file.getName().contains(DeleteCardCancelService.FILE_DELETED_MARKER))
+        final List<CreditCard> csvEntityList =
+                Stream.of(new File(this.config.getFileDire()).listFiles())
+                .filter(file -> !file.isDirectory()
+                        && !file.getName().contains(DeleteCardCancelService.FILE_DELETED_MARKER))
                 .flatMap(file -> {
                     try {
                         return Files.lines(file.toPath());
@@ -45,8 +68,10 @@ public class PrintJobCheckerImpl implements PrintJobChecker {
                     }
                     return Stream.empty();
                 })
-                .map(el -> new CreditCardCsvEntity().toEntity(this.config.getfileDel(), el))
-                .filter(el -> el.getStatus() != Status.NO_ACTIVE) // no need to check for NO_ACTIVE because they are waiting for print job
+                .map(el -> new CreditCardCsvEntity()
+                        .toEntity(this.config.getFileDel(), el))
+                 // no need to check for NO_ACTIVE because they are waiting for print job
+                .filter(el -> el.getStatus() != Status.NO_ACTIVE)
                 .collect(Collectors.toList());
 
         return updateCsvEntities(csvEntityList).stream().
@@ -54,14 +79,23 @@ public class PrintJobCheckerImpl implements PrintJobChecker {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Updates the credit card entities based on the provided CSV entities.
+     *
+     * Only the status is updated.
+     * They are matched by oib other data is not checked.
+     *
+     * @param csvEntityList The list of CreditCard entities from CSV files.
+     * @return The list of updated CreditCard entities.
+     */
     @Transactional
-    public List<CreditCard> updateCsvEntities(List<CreditCard> csvEntityList) {
-        List<String> oibList = csvEntityList.stream()
+    public List<CreditCard> updateCsvEntities(final List<CreditCard> csvEntityList) {
+        final List<String> oibList = csvEntityList.stream()
                 .map(el -> el.getOib())
                 .collect(Collectors.toList());
-        List<CreditCard> found = this.repository.findAllByOibIn(oibList);
+        final List<CreditCard> found = this.repository.findAllByOibIn(oibList);
 
-        List<CreditCard> updated = found.stream().map(el -> {
+        final List<CreditCard> updated = found.stream().map(el -> {
             Optional<CreditCard> creditCard = csvEntityList.stream()
                     .filter(item -> item.getOib().equals(el.getOib()))
                     .findFirst();

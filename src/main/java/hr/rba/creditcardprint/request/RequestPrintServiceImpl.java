@@ -13,6 +13,12 @@ import jakarta.validation.Valid;
 
 import java.util.Optional;
 
+/**
+ * The RequestPrintServiceImpl class is responsible for handling requests
+ * related to printing credit cards.
+ *
+ * It implements the RequestPrintService interface.
+ */
 @Service
 @Validated
 public class RequestPrintServiceImpl implements RequestPrintService {
@@ -21,10 +27,10 @@ public class RequestPrintServiceImpl implements RequestPrintService {
     private RequestPrintMapper mapper;
 
     /**
-     * Constructor.
+     * Constructor for creating a new RequestPrintServiceImpl instance.
      *
-     * @param creditCardRepository
-     * @param requestPrintMapper
+     * @param creditCardRepository The CreditCardRepository dependency.
+     * @param requestPrintMapper   The RequestPrintMapper dependency.
      */
     @Autowired
     public RequestPrintServiceImpl(final CreditCardRepository creditCardRepository,
@@ -33,6 +39,14 @@ public class RequestPrintServiceImpl implements RequestPrintService {
         this.mapper = requestPrintMapper;
     }
 
+    /**
+     * Processes a request for printing a credit card.
+     *
+     * @param insertDto
+     * @return The CreditCardPrintDetailsDto object representing the details of the printed credit card.
+     * @throws CreditCardPrintAlreadyExistException If the credit card print already exists with the same
+     * OIB and status.
+     */
     @Override
     public CreditCardPrintDetailsDto requestForPrint(@Valid final CreditCardPrintInsertDto insertDto) {
         final Optional<CreditCard> current = this.repository.findCreditCardByOib(insertDto.getOib());

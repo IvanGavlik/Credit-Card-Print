@@ -14,6 +14,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Implementation of the CreditCardPrintApiDelegate interface that handles
+ * credit card printing API operations.
+ *
+ * CreditCardPrintApiDelegate is generated class by OpenAPI.
+ */
 @Service
 public final class CreditCardPrintApi implements CreditCardPrintApiDelegate {
 
@@ -24,11 +30,14 @@ public final class CreditCardPrintApi implements CreditCardPrintApiDelegate {
     private SearchPrintService search;
 
     private DeleteCardCancelService deleteService;
+
     /**
      * Constructor.
      *
-     * @param issuingService
-     * @param requestPrintService
+     * @param issuingService        the issuing service
+     * @param requestPrintService   the request print service
+     * @param searchPrintService    the search print service
+     * @param deleteCardCancelService the delete card cancel service
      */
     @Autowired
     public CreditCardPrintApi(final IssuingService issuingService,
@@ -41,23 +50,53 @@ public final class CreditCardPrintApi implements CreditCardPrintApiDelegate {
         this.deleteService = deleteCardCancelService;
     }
 
-    public ResponseEntity<CreditCardPrintDetailsDto> insertCreditCard(final CreditCardPrintInsertDto creditCardPrintInsertDto) {
-        CreditCardPrintDetailsDto dto = this.requestPrint.requestForPrint(creditCardPrintInsertDto);
+    /**
+     * Inserts a credit card print request and returns the details of the inserted print.
+     *
+     * @param creditCardPrintInsertDto the credit card print insert DTO
+     * @return the response entity containing the credit card print details DTO
+     */
+    public ResponseEntity<CreditCardPrintDetailsDto> insertCreditCard(
+            final CreditCardPrintInsertDto creditCardPrintInsertDto) {
+        final CreditCardPrintDetailsDto dto = this.requestPrint.requestForPrint(creditCardPrintInsertDto);
         return ResponseEntity.ok().body(dto);
     }
 
-    public ResponseEntity<CreditCardPrintStatusDto> printCreditCard(String oib) {
-        CreditCardPrintStatusDto statusDto = issuing.issueCard(oib);
+    /**
+     * Prints a credit card with the specified OIB and returns the status of the print.
+     *
+     * @param oib the OIB (personal identification number) of the credit card
+     * @return the response entity containing the credit card print status DTO
+     */
+    public ResponseEntity<CreditCardPrintStatusDto> printCreditCard(final String oib) {
+        final CreditCardPrintStatusDto statusDto = issuing.issueCard(oib);
         return ResponseEntity.ok().body(statusDto);
     }
 
-    public ResponseEntity<List<CreditCardPrintDetailsDto>> searchCreditCard(String firstName,
-                                                                            String lastName,
-                                                                            String oib,
-                                                                            String status) {
-        List<CreditCardPrintDetailsDto> list = search.search(firstName, lastName, oib, status);
+    /**
+     * Searches for credit card prints based on the specified search criteria and returns a list of matching prints.
+     *
+     * @param firstName the first name of the credit card holder (optional)
+     * @param lastName  the last name of the credit card holder (optional)
+     * @param oib       the OIB (personal identification number) of the credit card (optional)
+     * @param status    the status of the credit card print (optional)
+     * @return the response entity containing the list of credit card print details DTOs
+     */
+    public ResponseEntity<List<CreditCardPrintDetailsDto>> searchCreditCard(final String firstName,
+                                                                            final String lastName,
+                                                                            final String oib,
+                                                                            final String status) {
+        final List<CreditCardPrintDetailsDto> list = search.search(firstName, lastName, oib, status);
         return ResponseEntity.ok().body(list);
     }
+
+    /**
+     * Deletes a credit card with the specified OIB and marks its file as deleted.
+     *
+     *
+     * @param oib the OIB (personal identification number) of the credit card to delete
+     * @return the response OK
+     * */
     public ResponseEntity<Void> deleteCreditCard(final String oib) {
         this.deleteService.delete(oib);
         return ResponseEntity.ok().build();

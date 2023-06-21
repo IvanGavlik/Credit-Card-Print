@@ -1,16 +1,23 @@
 openapi: "3.0.0"
 info:
   title: Api for credit card print
-  description: Api can be used to crete request, print and search for credit card
-  version: 1.0.1
+  description: |
+    The API enables printing of credit cards for individuals.  
+    In the first step, the data for printing is sent.  
+    In the next step, we send a request for printing.  
+    It is advisable to check whether the printing was successful after a certain time period (1-2 minutes) by using the search endpoint.  
+    Other functionalities are searching and deletion of credit card print.
+  version: 1.0.2
 paths:
   /credit-card-print:
     get:
+      tags:
+        - search
       summary: 'Search for credit card'
       description: |
-        Can search using one of the optional params first name, last name, personal identification Number (OIB) or status   
-        If param is not specified return all.  
-        If nothing is found returns empty list.
+        You can perform a search using one of the optional parameters: first name, last name, Personal Identification Number (OIB), or status.  
+        If a parameter is not specified, it will return all results.    
+        If no matching records are found, an empty list will be returned.
       operationId: searchCreditCard
       parameters:
           - in: query
@@ -18,25 +25,29 @@ paths:
             schema:
              type: string
             required: false
-            description: Search by user first name
+            description: Search by first name
+            example: Danica
           - in: query
             name: lastName
             schema:
              type: string
             required: false
-            description: Search by user last name
+            description: Search by last name
+            example: Marković
           - in: query
             name: oib
             schema:
              type: string
             required: false
             description: Search by user personal identification number (OIB)
+            example: 42585672100
           - in: query
             name: status
             schema:
               type: string
             required: false
             description: Search by status
+            example: NO_ACTIVE
       responses:
         '2XX':
           description: OK
@@ -46,6 +57,13 @@ paths:
                 type: array
                 items:
                  $ref: '#/components/schemas/CreditCardPrintDetailsDto'
+                example:
+                - firstName: Josip
+                  lastName: Pavić
+                  oib: 84574720654
+                - firstName: Aron
+                  lastName: Ivanković
+                  oib: 31730672508
         '4XX':
           description: The server cannot or will not process the request due to malformed request.
         '5XX':
@@ -53,10 +71,12 @@ paths:
         default:
           description: Unexpected error
     post:
+      tags:
+        - print request
       summary: Add a new credit card for print
       description: |
-        Inserting an individual person for credit card print with all relevant attributes (First Name, Last Name, OIB).  
-        Default status (NO_ACTIVE) is set.  
+        The data for credit card print is sent to this endpoint.  
+        Sets the status "NO_ACTIVE," which indicates that the data has been successfully entered into the system.    
         Returns created entity.
       operationId: insertCreditCard
       requestBody:
@@ -65,6 +85,17 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreditCardPrintInsertDto'
+            examples:
+              Example 1:
+                value:
+                  firstName: Sandi
+                  lastName: Vuković
+                  oib: 32052174042
+              Example 2:
+                value:
+                  firstName: Matej
+                  lastName: Župan
+                  oib: 06675310266
       responses:
         '2XX':
           description: OK
@@ -73,6 +104,13 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/CreditCardPrintDetailsDto'
+              examples:
+                Example 1:
+                  value:
+                    firstName: Paško
+                    lastName: Horvatinčić
+                    oib: 94145125477
+                    status: IN_PROGRESS
         '4XX':
           description: Client error
           content:
@@ -80,6 +118,8 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/ValidationErrorResponse'
+              example:
+                - {'fieldName': 'oib', 'message': 'Invalid OIB'}
         '5XX':
           description: Server error
           content:
@@ -87,13 +127,20 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                - status : CONFLICT
+                  message : "Credit Card Print {oib: 98614461866} already exist and it is in status BLOCKED"
+        default:
+          description: Unexpected error
     put:
+      tags:
+        - print
       summary: For individual found by oib generate a text file a start process of credit card printing.
       description: |
         Process of credit card printing can be started only for individual person credit card print request in status NO_ACTIVE.  
         Returns the status indicating success of process.  
         Returns IN_PROCESS when file is generated. Printing process is started, waiting for result.  
-        Returns ACTIVE if credit card is printed and active.  
+        Returns ACTIVE if credit card is printed.  
         Returns BLOCKED if credit card is not printed. Process of printing failed.
       operationId: printCreditCard
       parameters:
@@ -102,6 +149,7 @@ paths:
           required: true
           schema:
             type: string
+          example: 68695906587
       responses:
         '2XX':
           description: OK
@@ -110,6 +158,17 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/CreditCardPrintStatusDto'
+              examples:
+                Example 1:
+                  value:
+                    oib: 22782713620
+                    processStatus: REQUEST_SUCCESSFULLY_WAITING_PRINTER
+                    msg: null
+                Example 2:
+                  value:
+                    oib: 22782713620
+                    processStatus: FAILURE
+                    msg: 'For {oib: 22782713620} Credit Card Print does not exist'
         '4XX':
           description: Client error
           content:
@@ -117,6 +176,8 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/ValidationErrorResponse'
+              example:
+               - { 'fieldName': 'oib', 'message': 'Invalid OIB' }
         '5XX':
           description: Server error
           content:
@@ -124,11 +185,18 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                - status: INTERNAL_SERVER_ERROR
+                  message: "Exception in toString()"
+        default:
+          description: Unexpected error
     delete:
+      tags:
+        - delete
       summary: Delete credit card print record
       description: |
         Record in database is deleted and.  
-        Add _DELETED postfix to files (if has any) names.
+        Add _DELETED postfix to file name (if has any).
       operationId: deleteCreditCard
       parameters:
         - in: query
@@ -136,23 +204,12 @@ paths:
           required: true
           schema:
             type: string
+          example: 76238827705
       responses:
         '2XX':
           description: OK - deleted
-        '4XX':
-          description: Client error
-          content:
-            application/json:
-              schema:
-                type: object
-                $ref: '#/components/schemas/ValidationErrorResponse'
-        '5XX':
-          description: Server error
-          content:
-            application/json:
-              schema:
-                type: object
-                $ref: '#/components/schemas/ErrorResponse'
+        default:
+          description: Unexpected error
 components:
   schemas:
     CreditCardPrintDetailsDto:

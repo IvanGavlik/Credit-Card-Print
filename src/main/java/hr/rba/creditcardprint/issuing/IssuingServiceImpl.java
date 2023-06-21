@@ -14,6 +14,9 @@ import java.io.PrintWriter;
 
 import java.util.Optional;
 
+/**
+ * The class is responsible for issuing the printing process of credit cards.
+ */
 @Service
 public class IssuingServiceImpl implements IssuingService {
 
@@ -24,11 +27,13 @@ public class IssuingServiceImpl implements IssuingService {
     private final ApplicationConfig config;
 
 
+
     /**
-     * IssuingServiceImpl constructor.
+     * Constructor for IssuingServiceImpl.
      *
-     * @param creditCardRepository
-     * @param mapperIssuing
+     * @param creditCardRepository  The repository for credit card data.
+     * @param mapperIssuing         The mapper for converting DTOs to entities.
+     * @param applicationConfig     The application configuration.
      */
     @Autowired
     public IssuingServiceImpl(final CreditCardRepository creditCardRepository,
@@ -39,9 +44,15 @@ public class IssuingServiceImpl implements IssuingService {
         this.config = applicationConfig;
     }
 
+    /**
+     * Issues a credit card for the given OIB (personal identification number).
+     *
+     * @param oib The OIB (personal identification number) of the credit card to be issued.
+     * @return The status of the credit card print process.
+     */
     @Override
     @Transactional
-    public CreditCardPrintStatusDto issueCard(String oib) {
+    public CreditCardPrintStatusDto issueCard(final String oib) {
         final Optional<CreditCard> current = this.repository.findCreditCardByOib(oib);
         if (!current.isPresent()) {
             return createStatus(oib,
@@ -55,7 +66,7 @@ public class IssuingServiceImpl implements IssuingService {
             return createStatus(oib,
                     CreditCardPrintStatusDto.ProcessStatusEnum.FAILURE,
                     Optional.of(
-                            String.format("Only credit cards in %s state can be printed this { oib: %s } is in %s state",
+                            String.format("Only credit cards in %s state can be printed { oib: %s } is in %s state",
                                     Status.NO_ACTIVE.name(), oib, creditCard.getStatus())
                     )
             );
@@ -85,9 +96,9 @@ public class IssuingServiceImpl implements IssuingService {
         }
     }
 
-    private CreditCardPrintStatusDto createStatus(String oib,
-                                                  CreditCardPrintStatusDto.ProcessStatusEnum status,
-                                                  Optional<String> msg) {
+    private CreditCardPrintStatusDto createStatus(final String oib,
+                                                  final CreditCardPrintStatusDto.ProcessStatusEnum status,
+                                                  final Optional<String> msg) {
         CreditCardPrintStatusDto statusDto = new CreditCardPrintStatusDto();
         statusDto.setOib(oib);
         statusDto.setProcessStatus(status);
@@ -96,14 +107,14 @@ public class IssuingServiceImpl implements IssuingService {
         }
         return statusDto;
     }
-    private File generateFile(CreditCard creditCard) throws Exception {
+    private File generateFile(final CreditCard creditCard) throws Exception {
         final String fileName = IssuingService.nameCreditCardFile(creditCard);
         Optional<File> file = FileStorageService.createFile(config.getFileDire() + fileName);
         if (!file.isPresent()) {
             return null;
         }
 
-        String delimiter = config.getfileDel();
+        String delimiter = config.getFileDel();
         if (delimiter == null) {
             delimiter = CsvEntity.DEFAULT_CSV_DELIMITER;
         }

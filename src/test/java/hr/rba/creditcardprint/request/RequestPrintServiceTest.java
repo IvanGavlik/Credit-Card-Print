@@ -23,8 +23,7 @@ public class RequestPrintServiceTest {
 
     @BeforeEach
     public void setUp() {
-        requestPrintService =
-                new RequestPrintServiceImpl(mockRepo, Mappers.getMapper(RequestPrintMapper.class));
+        requestPrintService = new RequestPrintServiceImpl(mockRepo, Mappers.getMapper(RequestPrintMapper.class));
     }
     @Test
     public void requestForPrintStatusNoActive() {
@@ -32,7 +31,7 @@ public class RequestPrintServiceTest {
         when(mockRepo.save(any())).thenAnswer(i -> i.getArguments()[0]);
 
         final String name = "Josipa";
-        final String lastName ="Jean-Philippe";
+        final String lastName = "Jean-Philippe";
         final String oib = "57191619656";
 
         final CreditCardPrintInsertDto insertDto = new CreditCardPrintInsertDto();
@@ -51,7 +50,7 @@ public class RequestPrintServiceTest {
     @Test
     public void alreadyExist() {
         final String name = "Josipa";
-        final String lastName ="Jean-Philippe";
+        final String lastName = "Jean-Philippe";
         final String oib = "57191619656";
 
         CreditCard entity = new CreditCard();

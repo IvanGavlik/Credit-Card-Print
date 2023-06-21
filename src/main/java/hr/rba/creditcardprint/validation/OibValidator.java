@@ -4,12 +4,33 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 
+/**
+ * The {@code OibValidator} class implements the validation logic for the {@link Oib} annotation.
+ * It validates whether a given OIB (Personal Identification Number) is in the correct format.
+ */
 public class OibValidator implements ConstraintValidator<Oib, String> {
+
+
+    /**
+     * Checks if the provided OIB is valid.
+     *
+     * @param oib
+     * @param constraintValidatorContext
+     * @return {@code true} if the OIB is valid, {@code false} otherwise.
+     */
     @Override
-    public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return checkOIBState(s);
+    public boolean isValid(final String oib,
+                           final ConstraintValidatorContext constraintValidatorContext) {
+        return checkOIBState(oib);
     }
 
+
+    /**
+     * Checks whether the OIB is in the correct format.
+     *
+     * @param oib
+     * @return {@code true} if the OIB is in the correct format, {@code false} otherwise.
+     */
     public static boolean checkOIBState(final String oib) {
         if (oib.length() != 11) {
             return false;

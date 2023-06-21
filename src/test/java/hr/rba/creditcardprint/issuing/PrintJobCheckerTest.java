@@ -19,21 +19,22 @@ import static org.mockito.Mockito.when;
 
 public class PrintJobCheckerTest {
 
-    private final static String fileDir = "./src/test/resources/print/files/printJob";
+    private static final String FILE_DIR = "./src/test/resources/print/files/printJob";
     private CreditCardRepository mockRepo = mock(CreditCardRepository.class);
     private ApplicationConfig mockConfig = mock(ApplicationConfig.class);
     private PrintJobChecker printJobChecker;
 
     @BeforeEach
     public void setUp() {
-        when(mockConfig.getFileDire()).thenReturn(fileDir);
-        when(mockConfig.getfileDel()).thenReturn(CsvEntity.DEFAULT_CSV_DELIMITER);
+        when(mockConfig.getFileDire()).thenReturn(FILE_DIR);
+        when(mockConfig.getFileDel()).thenReturn(CsvEntity.DEFAULT_CSV_DELIMITER);
 
-        this.printJobChecker = new PrintJobCheckerImpl(mockRepo, mockConfig, Mappers.getMapper(CreditCardIssuingDtoMapper.class));
+        this.printJobChecker = new PrintJobCheckerImpl(mockRepo, mockConfig,
+                Mappers.getMapper(CreditCardIssuingDtoMapper.class));
     }
 
     /**
-     * Test read csv files at {@link PrintJobCheckerTest#fileDir}
+     * Test read csv files at {@link PrintJobCheckerTest#FILE_DIR}
      * will confirm that {@link PrintJobChecker#checkPrintJob()} correctly updates entities
      *
      * Files: 12179050887.csv, 18561704886.csv, 69546524558.csv, 77570421961.csv, 91070672093.csv

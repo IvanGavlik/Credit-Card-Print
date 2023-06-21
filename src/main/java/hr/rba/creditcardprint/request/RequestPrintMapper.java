@@ -15,5 +15,12 @@ public interface RequestPrintMapper {
      */
     CreditCard dtoToEntity(CreditCardPrintInsertDto insertDto);
 
+    /**
+     *  Maps a CreditCard entity to a CreditCardPrintDetailsDto object.
+     *
+     * @param creditCard The CreditCard entity to be mapped.
+     * @return The CreditCardPrintDetailsDto object representing
+     * the details of the credit card.
+     */
     CreditCardPrintDetailsDto entityToDetailsDto(CreditCard creditCard);
  }

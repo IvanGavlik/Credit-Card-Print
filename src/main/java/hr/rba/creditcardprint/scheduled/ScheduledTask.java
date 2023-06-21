@@ -8,6 +8,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+/**
+ * Configuration class for scheduling and executing tasks.
+ */
 @Configuration
 @EnableScheduling
 @EnableAsync
@@ -16,6 +19,12 @@ public class ScheduledTask {
     private final PrintJobChecker printJobChecker;
     private final ApplicationConfig config;
 
+    /**
+     * Constructor.
+     *
+     * @param checker           the print job checker
+     * @param applicationConfig the application configuration
+     */
     @Autowired
     public ScheduledTask(final PrintJobChecker checker, final ApplicationConfig applicationConfig) {
         this.printJobChecker = checker;
@@ -23,8 +32,13 @@ public class ScheduledTask {
     }
 
 
-    // https://www.baeldung.com/cron-expressions
-    @Scheduled(cron = "${hr.rba.credicardprint.csvfile.print.schedule}")
+    /**
+     * Scheduled method to check the print job.
+     * <p>
+     * This method is executed based on the cron expression specified in the application configuration.
+     * It triggers the {@link PrintJobChecker} to check for print jobs and perform necessary actions.
+     */
+    @Scheduled(cron = "${hr.rba.credicardprint.csvfile.print.schedule}") // https://www.baeldung.com/cron-expressions
     public void checkPrintJob() {
        this.printJobChecker.checkPrintJob();
     }

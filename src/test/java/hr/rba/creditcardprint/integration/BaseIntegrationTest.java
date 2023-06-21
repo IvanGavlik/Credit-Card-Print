@@ -19,11 +19,13 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @ActiveProfiles("integrationTest")
 @Testcontainers
 public abstract class BaseIntegrationTest {
+    private final Header applicationJsonContent = new Header("Content-Type", "application/json");
 
     @LocalServerPort
-    int port;
-
-    final protected Header applicationJsonContent = new Header("Content-Type", "application/json");
+    private int port;
+    @Container
+    @ServiceConnection
+    private static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:15.1");
 
     @BeforeEach
     void setUp() {
@@ -31,8 +33,8 @@ public abstract class BaseIntegrationTest {
         RestAssured.baseURI = "http://localhost";
     }
 
-    @Container
-    @ServiceConnection
-    static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:15.1");
+    protected Header getApplicationJsonContent() {
+        return this.applicationJsonContent;
+    }
 
 }

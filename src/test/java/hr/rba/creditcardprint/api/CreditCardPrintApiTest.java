@@ -26,11 +26,11 @@ public class CreditCardPrintApiTest extends BaseIntegrationTest {
         jsonObject.put("oib", oib);
 
         Response response = RestAssured.given()
-                .header(applicationJsonContent)
+                .header(super.getApplicationJsonContent())
                 .body(jsonObject.toJSONString())
                 .post("/credit-card-print");
 
-        Assertions.assertEquals(200, response. getStatusCode());
+        Assertions.assertEquals(200, response.getStatusCode());
 
         CreditCardPrintDetailsDto detailsDto = response.getBody().as(CreditCardPrintDetailsDto.class);
         Assertions.assertEquals(firstName, detailsDto.getFirstName());
@@ -45,7 +45,7 @@ public class CreditCardPrintApiTest extends BaseIntegrationTest {
 
         insertCreditCard(oib);
 
-        Response response = RestAssured.get("/credit-card-print?oib="+oib);
+        Response response = RestAssured.get("/credit-card-print?oib=" + oib);
 
         Assertions.assertEquals(200, response.getStatusCode());
 
@@ -59,7 +59,7 @@ public class CreditCardPrintApiTest extends BaseIntegrationTest {
     public void searchCreditCardNotFound() {
         final String oib = "Lorem ipsum";
 
-        Response response = RestAssured.get("/credit-card-print?oib="+oib);
+        Response response = RestAssured.get("/credit-card-print?oib=" + oib);
 
         Assertions.assertEquals(200, response.getStatusCode());
 
@@ -75,9 +75,9 @@ public class CreditCardPrintApiTest extends BaseIntegrationTest {
 
         insertCreditCard(oib);
 
-        Response response = RestAssured.put("/credit-card-print?oib="+oib);
+        Response response = RestAssured.put("/credit-card-print?oib=" + oib);
 
-        Assertions.assertEquals(200, response. getStatusCode());
+        Assertions.assertEquals(200, response.getStatusCode());
 
         CreditCardPrintStatusDto statusDto = response.getBody().as(CreditCardPrintStatusDto.class);
         Assertions.assertEquals(oib, statusDto.getOib());
@@ -86,7 +86,7 @@ public class CreditCardPrintApiTest extends BaseIntegrationTest {
         Assertions.assertNull(statusDto.getMsg());
 
         // status should be IN_PROCESS
-        response = RestAssured.get("/credit-card-print?oib="+oib);
+        response = RestAssured.get("/credit-card-print?oib=" + oib);
         Assertions.assertEquals(200, response.getStatusCode());
 
         List<CreditCardPrintDetailsDto> detailsList = Arrays.asList(response.getBody()
@@ -102,11 +102,11 @@ public class CreditCardPrintApiTest extends BaseIntegrationTest {
         final String oib = "20075346887";
         insertCreditCard(oib);
 
-        Response response = RestAssured.delete("/credit-card-print?oib="+oib);
-        Assertions.assertEquals(200, response. getStatusCode());
+        Response response = RestAssured.delete("/credit-card-print?oib=" + oib);
+        Assertions.assertEquals(200, response.getStatusCode());
 
 
-        response = RestAssured.get("/credit-card-print?oib="+oib);
+        response = RestAssured.get("/credit-card-print?oib=" + oib);
         Assertions.assertEquals(200, response.getStatusCode());
 
         List<CreditCardPrintDetailsDto> detailsList = Arrays.asList(response.getBody()
@@ -115,7 +115,7 @@ public class CreditCardPrintApiTest extends BaseIntegrationTest {
         Assertions.assertEquals(0, detailsList.size());
     }
 
-    private void insertCreditCard(String oibValue) {
+    private void insertCreditCard(final String oibValue) {
         final String firstName = "Mario";
         final String lastName = "Jerković";
         JSONObject jsonObject = new JSONObject();
@@ -124,7 +124,7 @@ public class CreditCardPrintApiTest extends BaseIntegrationTest {
         jsonObject.put("oib", oibValue);
 
         int status = RestAssured.given()
-                .header(applicationJsonContent)
+                .header(super.getApplicationJsonContent())
                 .body(jsonObject.toJSONString())
                 .post("/credit-card-print")
                 .getStatusCode();

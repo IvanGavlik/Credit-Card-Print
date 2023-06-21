@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <!DOCTYPE suppressions PUBLIC "-//Checkstyle//DTD SuppressionFilter Configuration 1.0//EN" "https://checkstyle.org/dtds/suppressions_1_0.dtd">
-
 <suppressions>
     <suppress checks="FinalClass"
               files="CreditCardPrintApplication.java"/>
@@ -13,6 +12,14 @@
     <suppress files="data" checks="DesignForExtension" />
     <suppress files="data" checks="MissingJavadocMethod" />
     <suppress files="data" checks="OperatorWrap" />
+
+    <suppress files="OibValidator.java" checks="MagicNumber" />
+
+    <suppress files="src/test/java.*" checks="JavadocPackage" />
+    <suppress files="src/test/java.*" checks="MissingJavadocMethod" />
+    <suppress files="src/test/java.*" checks="DesignForExtension" />
+    <suppress files="src/test/java.*" checks="MagicNumber" />
+    <suppress files="src/test/java.*" checks="AvoidStarImport" />
 
     <!-- no need for check style on generated code -->
     <suppress files="openapi" checks="." />
